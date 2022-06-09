@@ -4,7 +4,16 @@ Module 11 HW | 11 Express.js: Note Taker
 
 # 11 Express.js: Note Taker
 
-## Your Task
+1. [Description](#description)
+2. [User Story](#user-story)
+3. [Acceptance Criteria](#acceptance-criteria)
+4. [Mock-Up](#mock-up)
+5. [Getting Started](#getting-started)
+6. [Github Repository](#github-repository)
+7. [Gitignore](#gitignore-details)
+8. [Requirements & Criteria](#grading-requirements)
+
+## Description
 
 Your assignment is to modify starter code to create an application called Note Taker that can be used to write and save notes. This application will use an Express.js back end and will save and retrieve note data from a JSON file.
 
