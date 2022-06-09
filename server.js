@@ -3,8 +3,9 @@ const path = require("path");
 const fs = require("fs");
 const util = require("util");
 
-const uuid = require("./helpers/uuid");
-const notes = require("./Develop/db/db.json");
+const { v4: uuidv4 } = require("uuid");
+const { notEqual } = require("assert");
+// const notes = require("./db/db.json");
 
 const app = express();
 const PORT = 3001;
@@ -14,97 +15,48 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
 
-app.use("/api", api);
-
 //CRUD OPERATIONS
-//Create - POST
-//Read - GET
-//Update
-//Delete
+//Create - POST / Read - GET / Update / Delete
 
-// GET request
+// GET requests
 app.get("/", (req, res) => {
-  res.json(path.join(__dirname, "./Develop/public/index.html"));
+  res.sendFile(path.join(__dirname, "./public/index.html"));
   console.info(`${req.method} request received`);
 });
 
-app.get("./Develop/public/notes", (req, res) => {
-  res.json(path.join(__dirname, "./Develop/public/notes"));
+app.get("/notes", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/notes.html"));
   console.info(`${req.method} request received`);
 });
 
-// GET a single review
-app.get("/notes/:notes_id", (req, res) => {
-  if (req.params.notes_id) {
-    console.info(`${req.method} request received to get a single a note`);
-    const reviewId = req.params.review_id;
-    for (let i = 0; i < reviews.length; i++) {
-      const currentNote = notes[i];
-      if (currentNote.note_id === noteId) {
-        res.json(currentNote);
-        return;
-      }
-    }
-    res.status(404).send("Note not found");
-  } else {
-    res.status(400).send("Note ID not provided");
-  }
-});
-
-// POST request
-app.post("/", (req, res) => {
-  res.json(path.join(__dirname, "/develop/public/index.html"));
-});
-
-app.post("/notes", (req, res) => {
-  res.json(`${req.method} request received`);
-  console.info(`${req.method} request received`);
-});
-
-// POST request to add a note
-app.post("/notes", (req, res) => {
-  // Log that a POST request was received
-  console.info(`${req.method} request received to add a note`);
-
-  // Destructuring assignment for the items in req.body
-  const { title, bodytext } = req.body;
-
-  // If all the required properties are present
-  if (title && bodytext) {
-    // Variable for the object we will save
-    const newNote = {
-      title,
-      bodytext,
-      note_id: uuid(),
-    };
-
-    const response = {
-      status: "success",
-      body: newNote,
-    };
-
-    console.log(response);
-    res.status(201).json(response);
-  } else {
-    res.status(500).json("Error in posting note");
-  }
-});
-
-//ref 13/01/06unsolved - bookroutes.js
-notes.get("/", (req, res) => {
-  Notes.findAll().then((notesData) => {
-    res.json(notesData);
+app.get("/api/notes", (req, res) => {
+  fs.readFile("db/db.json", "utf-8", (err, data) => {
+    res.json(JSON.parse(data));
   });
 });
 
-notes.post("/", (req, res) => {
-  Notes.create(req.body)
-    .then((newNote) => {
+app.post("/api/notes", (req, res) => {
+  fs.readFile("db/db.json", "utf-8", (err, data) => {
+    const newNote = req.body;
+    newNote.id = uuidv4();
+    const parsedNotes = JSON.parse(data);
+    parsedNotes.push(newNote);
+    fs.writeFile("db/db.json", JSON.stringify(parsedNotes), (err, data) => {
       res.json(newNote);
-    })
-    .catch((err) => {
-      res.json(err);
     });
+  });
+});
+
+app.delete("/api/notes/:id", (req, res) => {
+  fs.readFile("db/db.json", "utf-8", (err, data) => {
+    const parsedNotes = JSON.parse(data);
+    const filteredNotes = parsedNotes.filter(
+      (note) => note.id !== req.params.id
+    );
+    fs.writeFile("db/db.json", JSON.stringify(filteredNotes), (err, data) => {
+      res.json(filteredNotes);
+    });
+  });
 });
 
 app.listen(PORT, () =>
