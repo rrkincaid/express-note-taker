@@ -10,8 +10,7 @@ Module 11 HW | 11 Express.js: Note Taker
 4. [Mock-Up](#mock-up)
 5. [Getting Started](#getting-started)
 6. [Github Repository](#github-repository)
-7. [Gitignore](#gitignore-details)
-8. [Requirements & Criteria](#grading-requirements)
+7. [Deployed Heroku](#deployed-heroku)
 
 ## Description
 
@@ -75,13 +74,15 @@ You haven’t learned how to handle DELETE requests, but this application offers
 
 - `DELETE /api/notes/:id` should receive a query parameter that contains the id of a note to delete. To delete a note, you'll need to read all notes from the `db.json` file, remove the note with the given `id` property, and then rewrite the notes to the `db.json` file.
 
-## Github Repository and Heroku
+## Github Repository and ##DeployedHeroku
 
 https://github.com/rrkincaid/express-note-taker
 
 https://rrkincaid.github.io/express-note-taker/
 
 HEROKU:
+https://aqueous-badlands-19941.herokuapp.com/
+
 aqueous-badlands-19941
 
 heroku https://git.heroku.com/aqueous-badlands-19941.git (fetch)
