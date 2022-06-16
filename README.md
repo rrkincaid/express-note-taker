@@ -81,9 +81,9 @@ https://github.com/rrkincaid/express-note-taker
 https://rrkincaid.github.io/express-note-taker/
 
 HEROKU:
+
+https://git.heroku.com/aqueous-badlands-19941.git
 https://aqueous-badlands-19941.herokuapp.com/
 
 aqueous-badlands-19941
-
-heroku https://git.heroku.com/aqueous-badlands-19941.git (fetch)
-heroku https://git.heroku.com/aqueous-badlands-19941.git (push)
+damp-eyrie-75876
